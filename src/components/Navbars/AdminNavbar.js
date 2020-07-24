@@ -1,0 +1,119 @@
+import React from "react";
+import { Link } from "react-router-dom";
+// reactstrap components
+import {
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Navbar,
+  Nav,
+  Container,
+  Media
+} from "reactstrap";
+import { Modal } from "antd";
+
+
+const { confirm } = Modal;
+
+
+class AdminNavbar extends React.Component {
+  
+  //clear token from localStorage
+  onOkay = () => {  
+    localStorage.clear();
+    this.props.history.push('/')
+    console.log('jwt:', localStorage.clear() )
+  }
+
+  //for pop-up logout confirmation
+  showConfirm = () => {
+    confirm({
+      title: 'Logout',
+      content: 'are you sure want to logout?',
+      onOk: () => this.onOkay(),
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  }
+
+  render() {
+    return (
+      <>
+        <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
+          <Container fluid>
+            <div
+              className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+              to="/"
+            >
+              {this.props.brandText}
+            </div>
+            {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+              <FormGroup className="mb-0">
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fas fa-search" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input placeholder="Search" type="text" />
+                </InputGroup>
+              </FormGroup>
+            </Form> */}
+            <Nav className="align-items-center d-none d-md-flex" navbar>
+              <UncontrolledDropdown nav>
+                <DropdownToggle className="pr-0" nav>
+                  <Media className="align-items-center">
+                    {/* <span className="avatar avatar-sm rounded-circle">
+                      <img
+                        alt="..."
+                        src={require("assets/img/theme/favicon.png")}
+                      />
+                    </span> */}
+                    <Media className="ml-2 d-none d-lg-block">
+                      <span className="mb-0 text-sm font-weight-bold">
+                        Admin
+                      </span>
+                    </Media>
+                  </Media>
+                </DropdownToggle>
+                <DropdownMenu className="dropdown-menu-arrow" right>
+                  <DropdownItem className="noti-title" header tag="div">
+                    <h6 className="text-overflow m-0">Welcome!</h6>
+                  </DropdownItem>
+                  <Link to="/admin/404">
+                    <DropdownItem>
+                        <i className="ni ni-tv-2" />
+                        <span>Dashboard</span>
+                    </DropdownItem>
+                  </Link>
+                  <DropdownItem to="/admin/history-order" tag={Link}>
+                    <i className="ni ni-bullet-list-67" />
+                    <span>Approval</span>
+                  </DropdownItem>
+                  {/* <DropdownItem to="/admin/user-profile" tag={Link}>
+                    <i className="ni ni-calendar-grid-58" />
+                    <span>Activity</span>
+                  </DropdownItem>
+                  <DropdownItem to="/admin/user-profile" tag={Link}>
+                    <i className="ni ni-support-16" />
+                    <span>Support</span>
+                  </DropdownItem> */}
+                  <DropdownItem divider />
+                    <DropdownItem
+                      onClick={this.showConfirm}>
+                      <i className="ni ni-user-run" />
+                      <span>Logout</span>
+                    </DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </Nav>
+          </Container>
+        </Navbar>
+      </>
+    );
+  }
+}
+
+export default AdminNavbar;
